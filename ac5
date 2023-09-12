@@ -2,29 +2,22 @@ package main
 
 import "fmt"
 
-func findpair(arr []int, target int) (int, int) {
-	seen := make(map[int]bool)
-
-	for _, num := range arr {
-		complement := target - num
-		if seen[complement] {
-			return num, complement
-		}
-	
-	}
-
-	return -1, -1
-}
-
 func main() {
-	arr := []int{1, 2, 3, 4, 5, 6, 7, 8, 9, 10}
-	target := 12
+    arr := []int{1, 2, 3, 4, 5, 6, 7, 8, 9, 10}
+    target := 12
 
-	result1, result2 := findPair(arr, target)
+    found := false
 
-	if result1 == -1 && result2 == -1 {
-		fmt.Println("Nenhum par.")
-	} else {
-		fmt.Printf("Par encontrado", result1, result2)
-	}
+    for i := 0; i < len(arr); i++ {
+        for j := i+1; j < len(arr); j++ {
+            if arr[i] + arr[j] == target {
+                fmt.Printf("Par encontrado: (%d, %d)\n", arr[i], arr[j])
+                found = true
+            }
+        }
+    }
+
+    if !found {
+        fmt.Println("Nenhum par encontrado.")
+    }
 }
