@@ -1,0 +1,83 @@
+package main
+
+import "fmt"
+
+type NoArvore struct {
+    valor   int
+    esquerda *NoArvore
+    direita  *NoArvore
+}
+
+func NovoNo(valor int) *NoArvore {
+    return &NoArvore{valor: valor, esquerda: nil, direita: nil}
+}
+
+type ArvoreBinariaBusca struct {
+    raiz *NoArvore
+}
+
+func (arvore *ArvoreBinariaBusca) Inserir(valor int) {
+    if arvore.raiz == nil {
+        arvore.raiz = NovoNo(valor)
+        return
+    }
+    arvore.raiz.inserir(valor)
+}
+
+func (no *NoArvore) inserir(valor int) {
+    if valor < no.valor {
+        if no.esquerda == nil {
+            no.esquerda = NovoNo(valor)
+        } else {
+            no.esquerda.inserir(valor)
+        }
+    } else if valor > no.valor {
+        if no.direita == nil {
+            no.direita = NovoNo(valor)
+        } else {
+            no.direita.inserir(valor)
+        }
+    }
+}
+
+func (arvore *ArvoreBinariaBusca) Buscar(valor int) *NoArvore {
+    if arvore.raiz == nil {
+        return nil
+    }
+    return arvore.raiz.buscar(valor)
+}
+
+func (no *NoArvore) buscar(valor int) *NoArvore {
+    if valor == no.valor {
+        return no
+    }
+
+    if valor < no.valor {
+        if no.esquerda != nil {
+            return no.esquerda.buscar(valor)
+        }
+    } else {
+        if no.direita != nil {
+            return no.direita.buscar(valor)
+        }
+    }
+
+    return nil
+}
+
+func main() {
+    arvore := ArvoreBinariaBusca{}
+
+    arvore.Inserir(10)
+    arvore.Inserir(5)
+    arvore.Inserir(15)
+    arvore.Inserir(7)
+    arvore.Inserir(12)
+
+    noEncontrado := arvore.Buscar(7)
+    if noEncontrado != nil {
+        fmt.Printf("Não encontrado: %d\n", noEncontrado.valor)
+    } else {
+        fmt.Println("Não encontrado")
+    }
+}
